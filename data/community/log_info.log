@@ -1,0 +1,24 @@
+2023-02-17 21:10:41,806 INFO [main] c.z.c.MapperTest [StartupInfoLogger.java:55] Starting MapperTest using Java 17.0.5 on LAPTOP-338NMTK2 with PID 34656 (started by Thales in D:\workspace\community)
+2023-02-17 21:10:41,816 INFO [main] c.z.c.MapperTest [SpringApplication.java:631] No active profile set, falling back to 1 default profile: "default"
+2023-02-17 21:10:43,959 INFO [main] o.s.b.a.w.s.WelcomePageHandlerMapping [WelcomePageHandlerMapping.java:57] Adding welcome page template: index
+2023-02-17 21:10:44,291 INFO [main] c.z.c.MapperTest [StartupInfoLogger.java:61] Started MapperTest in 3.175 seconds (JVM running for 4.436)
+2023-02-17 21:10:44,838 INFO [main] c.z.h.HikariDataSource [HikariDataSource.java:110] HikariPool-1 - Starting...
+2023-02-17 21:10:45,084 INFO [main] c.z.h.HikariDataSource [HikariDataSource.java:123] HikariPool-1 - Start completed.
+2023-02-17 21:10:45,189 INFO [SpringApplicationShutdownHook] c.z.h.HikariDataSource [HikariDataSource.java:350] HikariPool-1 - Shutdown initiated...
+2023-02-17 21:10:45,199 INFO [SpringApplicationShutdownHook] c.z.h.HikariDataSource [HikariDataSource.java:352] HikariPool-1 - Shutdown completed.
+2023-02-17 21:14:11,892 INFO [main] c.z.c.MapperTest [StartupInfoLogger.java:55] Starting MapperTest using Java 17.0.5 on LAPTOP-338NMTK2 with PID 43912 (started by Thales in D:\workspace\community)
+2023-02-17 21:14:11,894 INFO [main] c.z.c.MapperTest [SpringApplication.java:631] No active profile set, falling back to 1 default profile: "default"
+2023-02-17 21:14:13,725 INFO [main] o.s.b.a.w.s.WelcomePageHandlerMapping [WelcomePageHandlerMapping.java:57] Adding welcome page template: index
+2023-02-17 21:14:14,062 INFO [main] c.z.c.MapperTest [StartupInfoLogger.java:61] Started MapperTest in 2.609 seconds (JVM running for 3.602)
+2023-02-17 21:14:14,684 INFO [main] c.z.h.HikariDataSource [HikariDataSource.java:110] HikariPool-1 - Starting...
+2023-02-17 21:14:14,929 INFO [main] c.z.h.HikariDataSource [HikariDataSource.java:123] HikariPool-1 - Start completed.
+2023-02-17 21:14:15,037 INFO [SpringApplicationShutdownHook] c.z.h.HikariDataSource [HikariDataSource.java:350] HikariPool-1 - Shutdown initiated...
+2023-02-17 21:14:15,046 INFO [SpringApplicationShutdownHook] c.z.h.HikariDataSource [HikariDataSource.java:352] HikariPool-1 - Shutdown completed.
+2023-02-17 21:15:02,234 INFO [main] c.z.c.MapperTest [StartupInfoLogger.java:55] Starting MapperTest using Java 17.0.5 on LAPTOP-338NMTK2 with PID 29656 (started by Thales in D:\workspace\community)
+2023-02-17 21:15:02,237 INFO [main] c.z.c.MapperTest [SpringApplication.java:631] No active profile set, falling back to 1 default profile: "default"
+2023-02-17 21:15:04,178 INFO [main] o.s.b.a.w.s.WelcomePageHandlerMapping [WelcomePageHandlerMapping.java:57] Adding welcome page template: index
+2023-02-17 21:15:04,563 INFO [main] c.z.c.MapperTest [StartupInfoLogger.java:61] Started MapperTest in 2.737 seconds (JVM running for 3.684)
+2023-02-17 21:15:05,101 INFO [main] c.z.h.HikariDataSource [HikariDataSource.java:110] HikariPool-1 - Starting...
+2023-02-17 21:15:05,325 INFO [main] c.z.h.HikariDataSource [HikariDataSource.java:123] HikariPool-1 - Start completed.
+2023-02-17 21:15:05,452 INFO [SpringApplicationShutdownHook] c.z.h.HikariDataSource [HikariDataSource.java:350] HikariPool-1 - Shutdown initiated...
+2023-02-17 21:15:05,461 INFO [SpringApplicationShutdownHook] c.z.h.HikariDataSource [HikariDataSource.java:352] HikariPool-1 - Shutdown completed.

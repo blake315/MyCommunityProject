@@ -1,0 +1,1 @@
+2023-02-01 14:27:08,512 WARN [http-nio-8080-exec-6] o.a.c.w.AbstractFileResourceSet [DirectJDKLog.java:173] Resource for web application [/community] at path [/login.] was not loaded as the canonical path [/login] did not match. Use of symlinks is one possible cause.
