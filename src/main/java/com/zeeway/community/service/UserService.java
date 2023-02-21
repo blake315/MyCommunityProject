@@ -1,6 +1,8 @@
 package com.zeeway.community.service;
 
+import com.zeeway.community.dao.LoginTicketMapper;
 import com.zeeway.community.dao.UserMapper;
+import com.zeeway.community.entity.LoginTicket;
 import com.zeeway.community.entity.User;
 import com.zeeway.community.util.CommunityConstant;
 import com.zeeway.community.util.CommunityUtil;
@@ -28,6 +30,9 @@ public class UserService implements CommunityConstant {
 
     @Autowired
     private TemplateEngine templateEngine;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     @Value("${community.path.domain}")
     private String domain;
@@ -106,5 +111,51 @@ public class UserService implements CommunityConstant {
             return ACTIVATION_FAILURE;
         }
     }
+
+    public Map<String, Object> login(String username, String password, int expiredSeconds){
+        Map<String, Object> map = new HashMap<>();
+
+        //进行对空值特殊情况的判断
+        if (StringUtils.isBlank(username)){
+            map.put("usernameMsg", "username can not be null!");
+            return map;
+        }
+        if (StringUtils.isBlank(password)){
+            map.put("passwordMsg", "password can not be null!");
+            return map;
+        }
+
+        User user = userMapper.selectByName(username);
+        if (user == null){
+            map.put("usernameMsg", "your username is not exist");
+            return map;
+        }
+        if (user.getStatus() == 0){
+            map.put("usernameMsg", "your account is not active");
+            return map;
+        }
+        password = CommunityUtil.md5(password + user.getSalt());
+        if (!user.getPassword().equals(password)){
+            map.put("passwordMsg", "password error");
+            return map;
+        }
+
+        //登录凭证
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(user.getId());
+        loginTicket.setTicket(CommunityUtil.generateUUID());
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds * 1000));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+
+        map.put("ticket", loginTicket.getTicket());
+
+        return map;
+    }
+
+    public void logout(String ticket){
+        loginTicketMapper.updateStatus(ticket, 1);
+    }
+
 
 }

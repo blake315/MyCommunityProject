@@ -1,1 +1,1 @@
-2023-02-01 14:27:08,512 WARN [http-nio-8080-exec-6] o.a.c.w.AbstractFileResourceSet [DirectJDKLog.java:173] Resource for web application [/community] at path [/login.] was not loaded as the canonical path [/login] did not match. Use of symlinks is one possible cause.
+2023-02-21 13:09:34,219 WARN [http-nio-8080-exec-1] o.a.c.u.SessionIdGeneratorBase [DirectJDKLog.java:173] Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [252] milliseconds.
