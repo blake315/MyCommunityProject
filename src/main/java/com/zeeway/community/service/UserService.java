@@ -95,7 +95,13 @@ public class UserService implements CommunityConstant {
         String url = domain + contextPath + "/activation/" + user.getId() + "/" + user.getActivationCode();
         context.setVariable("url", url);
         String content = templateEngine.process("/mail/activation",context);
-        mailClient.sendMail(user.getEmail(), "激活社区账户",content);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mailClient.sendMail(user.getEmail(), "激活社区账户",content);
+            }
+        });
+        thread.start();
 
 
         return map;
@@ -153,8 +159,46 @@ public class UserService implements CommunityConstant {
         return map;
     }
 
+
+    public Map<String, Object> getCode(String email){
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtils.isBlank(email)){
+            map.put("exitMsg", "email can not be null!");
+            return map;
+        }
+        User user = userMapper.selectByEmail(email);
+        if (user == null){
+            map.put("exitMsg", "your email account are not sign up!");
+            return map;
+        }
+        String code = CommunityUtil.generateUUID().substring(0,4);
+        Context context = new Context();
+        context.setVariable("email" , user.getEmail());
+        context.setVariable("code", code);
+        String content = templateEngine.process("/mail/forget", context);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mailClient.sendMail(user.getEmail(), "社区重置密码", content);
+            }
+        });
+        thread.start();
+        map.put("code", code);
+        return map;
+    }
+
     public void logout(String ticket){
         loginTicketMapper.updateStatus(ticket, 1);
+    }
+
+    public boolean resetPassword(String email, String password){
+        User user = userMapper.selectByEmail(email);
+        String salt = user.getSalt();
+        password = CommunityUtil.md5(password + salt);
+        int i = userMapper.updatePassword(user.getId(), password);
+        return i==1;
+
+
     }
 
 
