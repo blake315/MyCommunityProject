@@ -69,7 +69,7 @@ public class ForgetController {
         if (email1.equals(email)){
             if (userService.resetPassword(email1, password)){
                 session.removeAttribute("code");
-                return "forward:/logout";
+                return "/site/login";
             }else {
                 model.addAttribute("exitMsg", "your email account are not sign up!");
                 return "/site/forget";
