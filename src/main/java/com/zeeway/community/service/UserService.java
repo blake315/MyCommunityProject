@@ -211,4 +211,25 @@ public class UserService implements CommunityConstant {
     }
 
 
+    public Map<String, Object> updatePassword(User user, String oldPassword, String confirmPassword, String newPassword){
+        Map<String, Object> map = new HashMap<>();
+        oldPassword = CommunityUtil.md5(oldPassword + user.getSalt());
+        if (!user.getPassword().equals(oldPassword)){
+            map.put("oldMsg", "the old password that you type in is wrong!");
+            return map;
+        }
+        if (newPassword.length() < 8){
+            map.put("newMsg", "your new password too short!");
+            return map;
+        }
+        if (!newPassword.equals(confirmPassword)){
+            map.put("confirmMsg", "different password!");
+            return map;
+        }
+        newPassword = CommunityUtil.md5(newPassword + user.getSalt());
+        userMapper.updatePassword(user.getId(), newPassword);
+        return map;
+
+    }
+
 }

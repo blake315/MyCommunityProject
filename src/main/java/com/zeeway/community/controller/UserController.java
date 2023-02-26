@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author Thales
@@ -101,6 +102,23 @@ public class UserController {
         } catch (IOException e) {
             LOGGER.error("there is a error when loading user's header. caused by: " + e.getMessage());
         }
+    }
+
+
+    @RequestMapping(path = "/updatePassword", method = RequestMethod.POST)
+    public String updatePassword(String oldPassword, String newPassword, String confirmPassword, Model model){
+        User user = hostHolder.getUser();
+        Map<String, Object> map = userService.updatePassword(user, oldPassword, confirmPassword, newPassword);
+        if (map == null || map.isEmpty()){
+            return "redirect:/logout";
+        }else{
+            model.addAttribute("oldMsg", map.get("oldMsg"));
+            model.addAttribute("newMsg", map.get("newMsg"));
+            model.addAttribute("confirmMsg", map.get("confirmMsg"));
+
+            return "/site/setting";
+        }
+
     }
 
 
