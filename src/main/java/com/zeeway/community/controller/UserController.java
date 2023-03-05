@@ -1,5 +1,6 @@
 package com.zeeway.community.controller;
 
+import com.zeeway.community.annotation.LoginRequired;
 import com.zeeway.community.dao.UserMapper;
 import com.zeeway.community.entity.User;
 import com.zeeway.community.service.UserService;
@@ -50,11 +51,13 @@ public class UserController {
     @Autowired
     private HostHolder hostHolder;
 
+    @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
     public String getSettingPage(){
         return "/site/setting";
     }
 
+    @LoginRequired
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public String uploadHeader(MultipartFile headerImage, Model model){
         if (headerImage == null){
