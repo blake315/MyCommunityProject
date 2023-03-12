@@ -1,0 +1,18 @@
+2023-02-24 21:02:36,887 ERROR [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter [LoggingFailureAnalysisReporter.java:40] 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field loginTicketInterceptor in com.zeeway.community.config.WebMvcConfig required a bean of type 'com.zeeway.community.controller.interceptor.LoginTicketInterceptor' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'com.zeeway.community.controller.interceptor.LoginTicketInterceptor' in your configuration.
+
