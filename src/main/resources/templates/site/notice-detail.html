@@ -84,7 +84,7 @@
 								</button>
 							</div>
 							<div class="toast-body">
-								<span th:if="${topic.equals('comment')}">
+								<span th:if="${topic.equals('commentCount')}">
 									用户
 									<i th:utext="${map.user.username}">nowcoder</i>
 									评论了你的<b th:text="${map.entityType==1?'帖子':'回复'}">帖子</b>,

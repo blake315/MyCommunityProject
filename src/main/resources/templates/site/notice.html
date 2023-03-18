@@ -91,7 +91,7 @@
 									th:text="${#dates.format(commentNotice.message.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-28 14:13:25</span>
 							</h6>
 							<div>
-								<a th:href="@{/notice/detail/comment}">
+								<a th:href="@{/notice/detail/commentCount}">
 									用户
 									<i th:utext="${commentNotice.user.username}">nowcoder</i>
 									评论了你的<b th:text="${commentNotice.entityType==1?'帖子':'回复'}">帖子</b> ...
