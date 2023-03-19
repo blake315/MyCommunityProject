@@ -2,9 +2,11 @@ package com.zeeway.community;
 
 import com.zeeway.community.dao.DiscussPostMapper;
 import com.zeeway.community.dao.LoginTicketMapper;
+import com.zeeway.community.dao.MessageMapper;
 import com.zeeway.community.dao.UserMapper;
 import com.zeeway.community.entity.DiscussPost;
 import com.zeeway.community.entity.LoginTicket;
+import com.zeeway.community.entity.Message;
 import com.zeeway.community.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class MapperTest {
 
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Test
     public void testSelectUser(){
@@ -97,6 +102,35 @@ public class MapperTest {
         loginTicket = loginTicketMapper.selectByTicket("zeeway");
         System.out.println(loginTicket);
     }
+
+
+    @Test
+    public void testSelectLetters(){
+        List<Message> messages = messageMapper.selectConversations(111, 0, 20);
+        for (Message message:
+             messages) {
+            System.out.println(message);
+        }
+
+        int count = messageMapper.selectConversationCount(111);
+        System.out.println(count);
+
+        messages = messageMapper.selectLetters("111_112", 0 , 10);
+        for (Message message :
+                messages) {
+            System.out.println(message);
+        }
+
+        final int i = messageMapper.selectLetterCount("111_112");
+        System.out.println(i);
+
+
+        final int i1 = messageMapper.selectLetterUnreadCount(131, "111_131");
+        System.out.println(i1);
+    }
+
+
+
 
 
 }
