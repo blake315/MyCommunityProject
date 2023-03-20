@@ -6,17 +6,14 @@ import com.zeeway.community.entity.Page;
 import com.zeeway.community.entity.User;
 import com.zeeway.community.service.MessageService;
 import com.zeeway.community.service.UserService;
+import com.zeeway.community.util.CommunityUtil;
 import com.zeeway.community.util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MessageController {
@@ -60,5 +57,87 @@ public class MessageController {
         model.addAttribute("letterUnreadCount", letterUnreadCount);
 
         return "/site/letter";
+    }
+
+    @RequestMapping(path = "/letter/detail/{conversationId}", method = RequestMethod.GET)
+    public String getLetterDetail(@PathVariable("conversationId") String conversationId, Page page, Model model){
+        //分页信息
+        page.setLimit(5);
+        page.setPath("/letter/detail/" + conversationId);
+        page.setRows(messageService.findLetterCount(conversationId));
+
+        //私信列表
+        List<Message> letterList = messageService.findLetters(conversationId, page.getOffset(), page.getLimit());
+        List<Map<String, Object>> letters = new ArrayList<>();
+        if (letters != null){
+            for (Message message:
+                 letterList) {
+                Map<String, Object> letter = new HashMap<>();
+                letter.put("letter", message);
+                letter.put("fromUser", userService.findUserById(message.getFromId()));
+                letters.add(letter);
+            }
+        }
+        model.addAttribute("letters", letters);
+
+        model.addAttribute("target", getLetterTarget(conversationId));
+
+        final List<Integer> letterIds = getLetterIds(letterList);
+        if (!letterIds.isEmpty()){
+            messageService.readMessage(letterIds);
+        }
+
+
+        return "/site/letter-detail";
+    }
+
+
+    @PostMapping("/letter/send")
+    @ResponseBody
+    public String sendLetter(String toName, String content){
+        final User target = userService.findUserByName(toName);
+        if (target == null){
+            return CommunityUtil.getJSONString(1,"target user is not exits");
+
+        }
+        Message message = new Message();
+        message.setFromId(hostHolder.getUser().getId());
+        message.setToId(target.getId());
+        if (message.getFromId() < message.getToId()){
+            message.setConversationId(message.getFromId() + "_" + message.getToId());
+        }else {
+            message.setConversationId(message.getToId() + "_" + message.getFromId());
+        }
+
+        message.setContent(content);
+        message.setCreateTime(new Date());
+        messageService.addMessage(message);
+        return CommunityUtil.getJSONString(0);
+    }
+
+    private User getLetterTarget(String conversationId){
+        final String[] s = conversationId.split("_");
+        int id1 = Integer.parseInt(s[0]);
+        int id2 = Integer.parseInt(s[1]);
+
+        if (hostHolder.getUser().getId() == id1){
+            return userService.findUserById(id2);
+        }else {
+            return userService.findUserById(id1);
+        }
+    }
+
+    private List<Integer> getLetterIds(List<Message> letterList){
+        List<Integer> ids = new ArrayList<>();
+        if (letterList != null){
+            for (Message message :
+                    letterList) {
+                if (hostHolder.getUser().getId() == message.getToId() && message.getStatus() == 0) {
+                    ids.add(message.getId());
+                }
+                }
+        }
+
+        return ids;
     }
 }
