@@ -95,7 +95,6 @@ public class MessageController {
     @PostMapping("/letter/send")
     @ResponseBody
     public String sendLetter(String toName, String content){
-        Integer.valueOf("abc");
         final User target = userService.findUserByName(toName);
         if (target == null){
             return CommunityUtil.getJSONString(1,"target user is not exits");
