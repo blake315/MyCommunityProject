@@ -1,7 +1,6 @@
 package com.zeeway.community;
 
 import com.zeeway.community.dao.AlphaDao;
-import com.zeeway.community.service.AlphaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,11 +35,7 @@ class CommunityApplicationTests implements ApplicationContextAware {
     }
 
 
-    @Test
-    public void testBeanManagement(){
-        AlphaService alphaService = applicationContext.getBean(AlphaService.class);
-        System.out.println(alphaService);
-    }
+
 
 
     @Test
