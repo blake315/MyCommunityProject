@@ -1,9 +1,11 @@
 package com.zeeway.community.controller;
 
 import com.zeeway.community.annotation.LoginRequired;
-import com.zeeway.community.dao.UserMapper;
 import com.zeeway.community.entity.User;
+import com.zeeway.community.service.FollowService;
+import com.zeeway.community.service.LikeService;
 import com.zeeway.community.service.UserService;
+import com.zeeway.community.util.CommunityConstant;
 import com.zeeway.community.util.CommunityUtil;
 import com.zeeway.community.util.HostHolder;
 import org.apache.commons.lang3.StringUtils;
@@ -13,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController implements CommunityConstant {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
@@ -50,6 +50,13 @@ public class UserController {
 
     @Autowired
     private HostHolder hostHolder;
+
+    @Autowired
+    private LikeService likeService;
+
+
+    @Autowired
+    private FollowService followService;
 
     @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
@@ -122,6 +129,37 @@ public class UserController {
             return "/site/setting";
         }
 
+    }
+
+    //个人主页
+    @GetMapping(path = "/profile/{userId}")
+    public String getProfilePage(@PathVariable("userId") int userId, Model model){
+        User user = userService.findUserById(userId);
+        if (user == null){
+            throw new RuntimeException("the profile is not exist");
+        }
+        model.addAttribute("user", user);
+        //likeCount
+        int likeCount = likeService.findUserLikeCount(user.getId());
+        model.addAttribute("likeCount", likeCount);
+
+        //followee and follower Count
+
+        long followeeCount = followService.findFolloweeCount(userId, ENTITY_TYPE_USER);
+        long followerCount = followService.findFollowerCount(ENTITY_TYPE_USER, userId);
+
+        model.addAttribute("followeeCount", followeeCount);
+        model.addAttribute("followerCount", followerCount);
+
+        //has followed ?
+        boolean hasFollowed = false;
+        if(hostHolder.getUser() != null){
+            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
+        }
+        model.addAttribute("hasFollowed", hasFollowed);
+
+
+        return "/site/profile";
     }
 
 

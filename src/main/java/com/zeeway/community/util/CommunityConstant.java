@@ -26,9 +26,12 @@ public interface CommunityConstant {
      * 实体类型常量
      * 1 == 帖子
      * 2 == 评论
+     * 3 == 用户
      */
 
     int ENTITY_TYPE_POST = 1;
 
     int ENTITY_TYPE_COMMENT = 2;
+
+    int ENTITY_TYPE_USER = 3;
 }
