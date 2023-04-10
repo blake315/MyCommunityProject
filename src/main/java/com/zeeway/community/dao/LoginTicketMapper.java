@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.*;
  * 优点是简洁，不用再写多一个xml文件   缺点是代码不方便阅读和理解
  */
 @Mapper
+@Deprecated
 public interface LoginTicketMapper {
     @Insert({
             "insert into login_ticket(user_id,ticket,status,expired) ",
